@@ -28,6 +28,10 @@ urlpatterns = [
     #login path
     path('',views.LOGIN,name="login"),
     path('doLogin',views.doLogin,name="doLogin"),
+    path('doLogout',views.doLogout,name="logout"),
+
+    # for hod
+    path('Hod/Home',Hod_Views.HOME,name="hod_home")
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
