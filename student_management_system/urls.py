@@ -25,10 +25,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('base/',views.BASE,name="base"),
 
-    #login path
+    # login path
     path('',views.LOGIN,name="login"),
     path('doLogin',views.doLogin,name="doLogin"),
     path('doLogout',views.doLogout,name="logout"),
+
+    # profile update
+    path('profile',views.PROFILE,name="profile"),
+    path('profile/update',views.PROFILE_UPDATE,name="profile_update"),
 
     # for hod
     path('Hod/Home',Hod_Views.HOME,name="hod_home")
