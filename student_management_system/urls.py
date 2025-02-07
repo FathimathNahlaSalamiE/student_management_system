@@ -35,7 +35,8 @@ urlpatterns = [
     path('profile/update',views.PROFILE_UPDATE,name="profile_update"),
 
     # for hod
-    path('Hod/Home',Hod_Views.HOME,name="hod_home")
+    path('Hod/Home',Hod_Views.HOME,name="hod_home"),
+    path('Hod/Student/Add',Hod_Views.ADD_STUDENT,name="add_student"),
 
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
