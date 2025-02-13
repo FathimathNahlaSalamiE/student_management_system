@@ -71,3 +71,64 @@ def VIEW_STUDENT(request):
         'student':student,
     }
     return render(request,"Hod/view_student.html",context)
+
+
+def EDIT_STUDENT(request,id):
+    student=Student.objects.filter(id=id)
+    course=Course.objects.all()
+    session_year=Session_Year.objects.all()
+    context={
+        'student':student,
+        'course':course,
+        'session_year':session_year,
+    }
+    return render(request,'Hod/edit_student.html',context)
+
+
+def UPDATE_STUDENT(request):
+    if request.method == "POST":
+        student_id=request.POST.get('student_id')
+        profile_pic = request.FILES.get('profile_pic')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        address = request.POST.get('address')
+        gender = request.POST.get('gender')
+        course_id = request.POST.get('course_id')
+        session_year_id = request.POST.get('session_year_id')
+
+        user=CustomUser.objects.get(id=student_id)
+        user.first_name=first_name
+        user.last_name=last_name
+        user.email=email
+        user.username=username
+        if password != None and password != "":
+            user.set_password(password)
+        if profile_pic != None and profile_pic != "":
+            user.profile_pic = profile_pic
+        user.save()
+
+        student=Student.objects.get(admin=student_id)
+        student.address=address
+        student.gender=gender
+        course = Course.objects.get(name=course_id)
+        if course_id!=None and course_id!="":
+            student.course_id=course
+        session = Session_Year.objects.get(session_start=session_year_id.split(" to ")[0])
+        if session_year_id!=None and session_year_id!="":
+            student.session_year_id=session
+        student.save()
+
+        messages.success(request,"Student details are successfully updated !")
+        return redirect('view_student')
+
+    return render(request,'Hod/edit_student.html')
+
+
+def DELETE_STUDENT(request,admin):
+    student=CustomUser.objects.get(id=admin)
+    student.delete()
+    messages.success(request,"Student details are successfully deleted !")
+    return redirect('view_student')
