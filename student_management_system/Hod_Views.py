@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from app.models import Course,Session_Year,CustomUser,Student,Staff
+from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject
 from django.contrib import messages
 
 @login_required(login_url='/')
@@ -269,3 +269,32 @@ def DELETE_STAFF(request,admin):
     staff.delete()
     messages.success(request,"Staff details deleted successfully !")
     return render(request,"Hod/edit_staff.html")
+
+
+def ADD_SUBJECT(request):
+    course=Course.objects.all()
+    staff=Staff.objects.all()
+
+    if request.method=="POST":
+        subject_name=request.POST.get('subject_name')
+        course_id=request.POST.get('course_id')
+        staff_id=request.POST.get('staff_id')
+
+        course=Course.objects.get(id=course_id)
+        staff=Staff.objects.get(id=staff_id)
+
+        subject=Subject(
+            name=subject_name,
+            course=course,
+            staff=staff,
+        )
+        subject.save()
+
+        messages.success(request,"Subject is added successfully !")
+        return redirect('add_subject')
+
+    context={
+        'course':course,
+        'staff':staff,
+    }
+    return render(request,'Hod/add_subject.html',context)
