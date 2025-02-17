@@ -5,7 +5,25 @@ from django.contrib import messages
 
 @login_required(login_url='/')
 def HOME(request):
-    return render(request,"Hod/home.html")
+    student_count=Student.objects.all().count()
+    staff_count=Staff.objects.all().count()
+    course_count=Course.objects.all().count()
+    subject_count=Subject.objects.all().count()
+
+    student_gender_male=Student.objects.filter(gender='Male').count()
+    student_gender_female=Student.objects.filter(gender='Female').count()
+    student_gender_others=Student.objects.filter(gender='Others').count()
+
+    context={
+        'student_count':student_count,
+        'staff_count':staff_count,
+        'course_count':course_count,
+        'subject_count':subject_count,
+        'student_gender_male':student_gender_male,
+        'student_gender_female':student_gender_female,
+        'student_gender_others':student_gender_others,
+    }
+    return render(request,"Hod/home.html",context)
 
 @login_required(login_url='/')
 def ADD_STUDENT(request):
@@ -345,3 +363,59 @@ def DELETE_SUBJECT(request,id):
     subject.delete()
     messages.success(request,"Subject is successfully deleted !")
     return redirect('view_subject')
+
+@login_required(login_url='/')
+def ADD_SESSION(request):
+    if request.method=="POST":
+        session_year_start=request.POST.get('session_year_start')
+        session_year_end=request.POST.get('session_year_end')
+
+        session=Session_Year(
+            session_start=session_year_start,
+            session_end=session_year_end,
+        )
+        session.save()
+        messages.success(request,"Session added successfully !")
+        return redirect('add_session')
+
+    return render(request,'Hod/add_session.html')
+
+@login_required(login_url='/')
+def VIEW_SESSION(request):
+    session=Session_Year.objects.all()
+    context={
+        'session':session,
+    }
+    return render(request,'Hod/view_session.html',context)
+
+@login_required(login_url='/')
+def EDIT_SESSION(request,id):
+    session=Session_Year.objects.get(id=id)
+    context={
+        'session':session,
+    }
+    return render(request,'Hod/edit_session.html',context)
+
+@login_required(login_url='/')
+def UPDATE_SESSION(request):
+    if request.method=="POST":
+        session_id=request.POST.get('session_id')
+        session_year_start=request.POST.get('session_year_start')
+        session_year_end=request.POST.get('session_year_end')
+
+        session=Session_Year(
+            id=session_id,
+            session_start=session_year_start,
+            session_end=session_year_end,
+        )
+        session.save()
+        messages.success(request,"Session updated successfully !")
+        return redirect('view_session')
+    return render(request,'Hod/edit_session.html')
+
+
+def DELETE_SESSION(request,id):
+    session=Session_Year.objects.get(id=id)
+    session.delete()
+    messages.success(request,"Session deleted successfully !")
+    return redirect('view_session')
