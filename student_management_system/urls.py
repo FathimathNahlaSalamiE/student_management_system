@@ -67,7 +67,13 @@ urlpatterns = [
     path('Hod/Session/Update',Hod_Views.UPDATE_SESSION,name="update_session"),
     path('Hod/Session/Delete/<str:id>',Hod_Views.DELETE_SESSION,name="delete_session"),
 
+    path('Hod/Staff/Send_Notification',Hod_Views.STAFF_SEND_NOTIFICATION,name='staff_send_notification'),
+    path('Hod/Staff/Save_Notification',Hod_Views.SAVE_STAFF_NOTIFICATION,name='save_staff_notification'),
+
     # for staff
     path('Staff/Home',Staff_Views.HOME,name="staff_home"),
+
+    path('Staff/Notifications',Staff_Views.NOTIFICATIONS,name='notifications'),
+    path('Staff/Mark_As_Done/<str:status>',Staff_Views.STAFF_NOTIFICATION_MARK_AS_DONE,name='staff_notification_mark_as_done'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
