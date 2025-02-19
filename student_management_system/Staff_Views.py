@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app.models import Staff,Staff_Notification,Staff_leave
+from app.models import Staff,Staff_Notification,Staff_leave,Staff_Feedback
 from django.contrib import messages
 
 def HOME(request):
@@ -53,3 +53,31 @@ def STAFF_APPLY_LEAVE_SAVE(request):
         leave.save()
         messages.success(request,"Leave send successfully !")
         return redirect('staff_apply_leave')
+
+
+def STAFF_FEEDBACK(request):
+    staff_id=Staff.objects.get(admin=request.user.id)
+
+    feedback_history=Staff_Feedback.objects.filter(staff_id=staff_id)
+
+    context={
+        'feedback_history':feedback_history,
+    }
+
+    return render(request,'Staff/feedback.html',context)
+
+
+def STAFF_FEEDBACK_SAVE(request):
+    if request.method=="POST":
+        feedback=request.POST.get('feedback')
+
+        staff=Staff.objects.get(admin=request.user.id)
+
+        feedback=Staff_Feedback(
+            staff_id=staff,
+            feedback=feedback,
+            feedback_reply="",
+        )
+        feedback.save()
+        messages.success(request,'Feedback send successfully !')
+        return redirect('staff_feedback')

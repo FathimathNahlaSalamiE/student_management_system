@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave
+from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback
 from django.contrib import messages
 
 @login_required(login_url='/')
@@ -466,3 +466,25 @@ def STAFF_DISAPPROVE_LEAVE(request,id):
     leave.status = 2
     leave.save()
     return redirect('staff_leave_view')
+
+
+def STAFF_FEEDBACK_REPLY(request):
+    feedback=Staff_Feedback.objects.all()
+    see_feedback=Staff_Feedback.objects.all().order_by('-id')[0:5]
+    context={
+        'feedback':feedback,
+        'see_feedback':see_feedback,
+    }
+    return render(request,'Hod/staff_feedback.html',context)
+
+
+def SAVE_STAFF_FEEDBACK_REPLY(request):
+    if request.method=="POST":
+        feedback_id=request.POST.get('feedback_id')
+        feedback_reply=request.POST.get('feedback_reply')
+
+        feedback=Staff_Feedback.objects.get(id=feedback_id)
+        feedback.feedback_reply=feedback_reply
+        feedback.save()
+
+        return redirect('staff_feedback_reply')

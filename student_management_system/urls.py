@@ -74,6 +74,9 @@ urlpatterns = [
     path('Hod/Staff/Approve_view/<str:id>',Hod_Views.STAFF_APPROVE_LEAVE,name='staff_approve_leave'),
     path('Hod/Staff/Disapprove_view/<str:id>',Hod_Views.STAFF_DISAPPROVE_LEAVE,name='staff_disapprove_leave'),
 
+    path('Hod/Feedback',Hod_Views.STAFF_FEEDBACK_REPLY,name='staff_feedback_reply'),
+    path('Hod/Feedback/Save',Hod_Views.SAVE_STAFF_FEEDBACK_REPLY,name='save_staff_feedback_reply'),
+
 
     # for staff
     path('Staff/Home',Staff_Views.HOME,name="staff_home"),
@@ -83,5 +86,8 @@ urlpatterns = [
 
     path('Staff/Apply_leave',Staff_Views.STAFF_APPLY_LEAVE,name='staff_apply_leave'),
     path('Staff/Apply_leave_save',Staff_Views.STAFF_APPLY_LEAVE_SAVE,name='staff_apply_leave_save'),
+
+    path('Staff/Feedback',Staff_Views.STAFF_FEEDBACK,name='staff_feedback'),
+    path('Staff/Feedback/Save',Staff_Views.STAFF_FEEDBACK_SAVE,name='staff_feedback_save'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
