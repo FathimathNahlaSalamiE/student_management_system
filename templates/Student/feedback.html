@@ -5,7 +5,7 @@
         <div class="col">
             <h3 class="page-title">Feedback</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'staff_home' %}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'student_home' %}">Dashboard</a></li>
                 <li class="breadcrumb-item active">Feedback</li>
             </ul>
         </div>
@@ -18,7 +18,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{% url 'staff_feedback_save' %}" method="post">
+                    <form action="{% url 'student_feedback_save' %}" method="post">
                         {% csrf_token %}
                             <div class="col-12">
                                 <h5 class="form-title"><span>Feedback Form</span></h5>

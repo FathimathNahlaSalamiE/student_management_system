@@ -70,6 +70,9 @@ urlpatterns = [
     path('Hod/Staff/Send_Notification',Hod_Views.STAFF_SEND_NOTIFICATION,name='staff_send_notification'),
     path('Hod/Staff/Save_Notification',Hod_Views.SAVE_STAFF_NOTIFICATION,name='save_staff_notification'),
 
+    path('Hod/Student/Send_Notification', Hod_Views.STUDENT_SEND_NOTIFICATION,name='student_send_notification'),
+    path('Hod/Student/Save_Notification',Hod_Views.SAVE_STUDENT_NOTIFICATION,name='save_student_notification'),
+
     path('Hod/Staff/Leave_view',Hod_Views.STAFF_LEAVE_VIEW,name='staff_leave_view'),
     path('Hod/Staff/Approve_view/<str:id>',Hod_Views.STAFF_APPROVE_LEAVE,name='staff_approve_leave'),
     path('Hod/Staff/Disapprove_view/<str:id>',Hod_Views.STAFF_DISAPPROVE_LEAVE,name='staff_disapprove_leave'),
@@ -77,6 +80,8 @@ urlpatterns = [
     path('Hod/Feedback',Hod_Views.STAFF_FEEDBACK_REPLY,name='staff_feedback_reply'),
     path('Hod/Feedback/Save',Hod_Views.SAVE_STAFF_FEEDBACK_REPLY,name='save_staff_feedback_reply'),
 
+    path('Hod/Student/Feedback',Hod_Views.STUDENT_FEEDBACK_REPLY,name='student_feedback_reply'),
+    path('Hod/Student/Feedback/Save',Hod_Views.SAVE_STUDENT_FEEDBACK_REPLY,name='save_student_feedback_reply'),
 
     # for staff
     path('Staff/Home',Staff_Views.HOME,name="staff_home"),
@@ -89,5 +94,15 @@ urlpatterns = [
 
     path('Staff/Feedback',Staff_Views.STAFF_FEEDBACK,name='staff_feedback'),
     path('Staff/Feedback/Save',Staff_Views.STAFF_FEEDBACK_SAVE,name='staff_feedback_save'),
+
+
+    # for student
+    path('Student/Home',Student_Views.HOME,name="student_home"),
+
+    path('Student/Notifications',Student_Views.NOTIFICATIONS,name='student_notifications'),
+    path('Student/Mark_As_Done/<str:status>', Student_Views.STUDENT_NOTIFICATION_MARK_AS_DONE,name='student_notification_mark_as_done'),
+
+    path('Student/Feedback', Student_Views.STUDENT_FEEDBACK, name='student_feedback'),
+    path('Student/Feedback/Save',Student_Views.STUDENT_FEEDBACK_SAVE,name='student_feedback_save'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

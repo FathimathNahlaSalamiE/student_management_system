@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback
+from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback,Student_Notification,Student_Feedback
 from django.contrib import messages
 
 @login_required(login_url='/')
@@ -486,5 +486,51 @@ def SAVE_STAFF_FEEDBACK_REPLY(request):
         feedback=Staff_Feedback.objects.get(id=feedback_id)
         feedback.feedback_reply=feedback_reply
         feedback.save()
-
+        messages.success(request,'Replied successfully !')
         return redirect('staff_feedback_reply')
+
+
+def STUDENT_SEND_NOTIFICATION(request):
+    student=Student.objects.all()
+    see_notification = Student_Notification.objects.all().order_by('-id')[0:5]
+    context={
+        'student':student,
+        'see_notification':see_notification,
+    }
+    return render(request,'Hod/student_notification.html',context)
+
+
+def SAVE_STUDENT_NOTIFICATION(request):
+    if request.method=="POST":
+        student_id=request.POST.get('student_id')
+        message=request.POST.get('message')
+
+        student=Student.objects.get(id=student_id)
+        notification=Student_Notification(
+            student_id=student,
+            message=message,
+        )
+        notification.save()
+        messages.success(request,"Notifications send successfully !")
+        return redirect('student_send_notification')
+
+
+def STUDENT_FEEDBACK_REPLY(request):
+    feedback=Student_Feedback.objects.all()
+    see_feedback=Student_Feedback.objects.all().order_by('-id')[0:5]
+    context={
+        'feedback':feedback,
+        'see_feedback':see_feedback,
+    }
+    return render(request,'Hod/student_feedback.html',context)
+
+def SAVE_STUDENT_FEEDBACK_REPLY(request):
+    if request.method=="POST":
+        feedback_id=request.POST.get('feedback_id')
+        feedback_reply=request.POST.get('feedback_reply')
+
+        feedback=Student_Feedback.objects.get(id=feedback_id)
+        feedback.feedback_reply=feedback_reply
+        feedback.save()
+        messages.success(request,'Replied successfully !')
+        return redirect('student_feedback_reply')
