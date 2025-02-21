@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback,Student_Notification,Student_Feedback
+from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback,Student_Notification,Student_Feedback,Student_leave
 from django.contrib import messages
 
 @login_required(login_url='/')
@@ -42,10 +42,10 @@ def ADD_STUDENT(request):
         session_year_id = request.POST.get('session_year_id')
 
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,"Email is already taken")
+            messages.warning(request,"Email Is Already Taken")
             return redirect('add_student')
         if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,"Username is already taken")
+            messages.warning(request,"Username Is Already Taken")
             return redirect('add_student')
         else:
             user=CustomUser(
@@ -71,7 +71,7 @@ def ADD_STUDENT(request):
             )
 
             student.save()
-            messages.success(request,user.first_name + ' ' + user.last_name + ' is successfully added !')
+            messages.success(request,user.first_name + ' ' + user.last_name + ' Is Successfully Added !')
             return redirect('add_student')
 
     context={
@@ -137,7 +137,7 @@ def UPDATE_STUDENT(request):
             student.session_year_id=session
         student.save()
 
-        messages.success(request,"Student details are successfully updated !")
+        messages.success(request,"Student Details Are Successfully Updated !")
         return redirect('view_student')
 
     return render(request,'Hod/edit_student.html')
@@ -146,7 +146,7 @@ def UPDATE_STUDENT(request):
 def DELETE_STUDENT(request,admin):
     student=CustomUser.objects.get(id=admin)
     student.delete()
-    messages.success(request,"Student details are successfully deleted !")
+    messages.success(request,"Student Details Are Successfully Deleted !")
     return redirect('view_student')
 
 @login_required(login_url='/')
@@ -156,8 +156,8 @@ def ADD_COURSE(request):
         course=Course(
             name=course_name
         )
-        messages.success(request,"Course added successfully !")
         course.save()
+        messages.success(request, "Course Added Successfully !")
         return redirect('add_course')
     return render(request,'Hod/add_course.html')
 
@@ -185,7 +185,7 @@ def UPDATE_COURSE(request):
         course=Course.objects.get(id=course_id)
         course.name=course_name
         course.save()
-        messages.success(request,"Course is successfully updated !")
+        messages.success(request,"Course Is Successfully Updated !")
         return redirect('view_course')
     return render(request,'Hod/edit_course.html')
 
@@ -193,7 +193,7 @@ def UPDATE_COURSE(request):
 def DELETE_COURSE(request,id):
     course=Course.objects.get(id=id)
     course.delete()
-    messages.success(request,"Course successfully deleted !")
+    messages.success(request,"Course Successfully Deleted !")
     return redirect('view_course')
 
 @login_required(login_url='/')
@@ -208,10 +208,10 @@ def ADD_STAFF(request):
         address = request.POST.get('address')
         gender = request.POST.get('gender')
         if CustomUser.objects.filter(email=email).exists():
-            messages.warning(request,"Email is already taken")
+            messages.warning(request,"Email Is Already Taken")
             return redirect('add_staff')
         if CustomUser.objects.filter(username=username).exists():
-            messages.warning(request,"Username is already taken")
+            messages.warning(request,"Username Is Already Taken")
             return redirect('add_staff')
         else:
             user=CustomUser(first_name=first_name,last_name=last_name,username=username,email=email,profile_pic=profile_pic,user_type=2)
@@ -225,7 +225,7 @@ def ADD_STAFF(request):
             )
             staff.save()
 
-            messages.success(request,'Staff added successfully !')
+            messages.success(request,'Staff Added Successfully !')
             return redirect('add_staff')
 
     return render(request,'Hod/add_staff.html')
@@ -275,7 +275,7 @@ def UPDATE_STAFF(request):
         staff.address=address
         staff.save()
 
-        messages.success(request,"Staff details updated successfully !")
+        messages.success(request,"Staff Details Updated Successfully !")
         return redirect('view_staff')
 
     return render(request,'Hod/edit_staff.html')
@@ -284,7 +284,7 @@ def UPDATE_STAFF(request):
 def DELETE_STAFF(request,admin):
     staff=CustomUser.objects.get(id=admin)
     staff.delete()
-    messages.success(request,"Staff details deleted successfully !")
+    messages.success(request,"Staff Details Deleted Successfully !")
     return render(request,"Hod/edit_staff.html")
 
 @login_required(login_url='/')
@@ -307,7 +307,7 @@ def ADD_SUBJECT(request):
         )
         subject.save()
 
-        messages.success(request,"Subject is added successfully !")
+        messages.success(request,"Subject Is Added Successfully !")
         return redirect('add_subject')
 
     context={
@@ -353,7 +353,7 @@ def UPDATE_SUBJECT(request):
         subject.course=course
         subject.save()
 
-        messages.success(request,"Updated successfully !")
+        messages.success(request,"Updated Successfully !")
         return redirect('view_subject')
     return render(request,'Hod/edit_subject.html')
 
@@ -361,7 +361,7 @@ def UPDATE_SUBJECT(request):
 def DELETE_SUBJECT(request,id):
     subject=Subject.objects.get(id=id)
     subject.delete()
-    messages.success(request,"Subject is successfully deleted !")
+    messages.success(request,"Subject Is Successfully Deleted !")
     return redirect('view_subject')
 
 @login_required(login_url='/')
@@ -375,7 +375,7 @@ def ADD_SESSION(request):
             session_end=session_year_end,
         )
         session.save()
-        messages.success(request,"Session added successfully !")
+        messages.success(request,"Session Added Successfully !")
         return redirect('add_session')
 
     return render(request,'Hod/add_session.html')
@@ -409,7 +409,7 @@ def UPDATE_SESSION(request):
             session_end=session_year_end,
         )
         session.save()
-        messages.success(request,"Session updated successfully !")
+        messages.success(request,"Session Updated Successfully !")
         return redirect('view_session')
     return render(request,'Hod/edit_session.html')
 
@@ -417,7 +417,7 @@ def UPDATE_SESSION(request):
 def DELETE_SESSION(request,id):
     session=Session_Year.objects.get(id=id)
     session.delete()
-    messages.success(request,"Session deleted successfully !")
+    messages.success(request,"Session Deleted Successfully !")
     return redirect('view_session')
 
 @login_required(login_url='/')
@@ -442,10 +442,10 @@ def SAVE_STAFF_NOTIFICATION(request):
             message=message,
         )
         notification.save()
-        messages.success(request,"Notifications send successfully !")
+        messages.success(request,"Notifications Send Successfully !")
         return redirect('staff_send_notification')
 
-
+@login_required(login_url='/')
 def STAFF_LEAVE_VIEW(request):
     staff_leave=Staff_leave.objects.all()
     context={
@@ -453,21 +453,47 @@ def STAFF_LEAVE_VIEW(request):
     }
     return render(request,'Hod/staff_leave.html',context)
 
-
+@login_required(login_url='/')
 def STAFF_APPROVE_LEAVE(request,id):
     leave=Staff_leave.objects.get(id=id)
     leave.status=1
     leave.save()
+    messages.success(request, 'Leave Approved !')
     return redirect('staff_leave_view')
 
-
+@login_required(login_url='/')
 def STAFF_DISAPPROVE_LEAVE(request,id):
     leave = Staff_leave.objects.get(id=id)
     leave.status = 2
     leave.save()
+    messages.error(request, 'Leave Disapproved !')
     return redirect('staff_leave_view')
 
+@login_required(login_url='/')
+def STUDENT_LEAVE_VIEW(request):
+    student_leave=Student_leave.objects.all()
+    context={
+        'student_leave':student_leave,
+    }
+    return render(request,'Hod/student_leave.html',context)
 
+@login_required(login_url='/')
+def STUDENT_APPROVE_LEAVE(request,id):
+    leave=Student_leave.objects.get(id=id)
+    leave.status=1
+    leave.save()
+    messages.success(request, 'Leave Approved !')
+    return redirect('student_leave_view')
+
+@login_required(login_url='/')
+def STUDENT_DISAPPROVE_LEAVE(request,id):
+    leave = Student_leave.objects.get(id=id)
+    leave.status = 2
+    leave.save()
+    messages.error(request,'Leave Disapproved !')
+    return redirect('student_leave_view')
+
+@login_required(login_url='/')
 def STAFF_FEEDBACK_REPLY(request):
     feedback=Staff_Feedback.objects.all()
     see_feedback=Staff_Feedback.objects.all().order_by('-id')[0:5]
@@ -477,7 +503,7 @@ def STAFF_FEEDBACK_REPLY(request):
     }
     return render(request,'Hod/staff_feedback.html',context)
 
-
+@login_required(login_url='/')
 def SAVE_STAFF_FEEDBACK_REPLY(request):
     if request.method=="POST":
         feedback_id=request.POST.get('feedback_id')
@@ -486,10 +512,10 @@ def SAVE_STAFF_FEEDBACK_REPLY(request):
         feedback=Staff_Feedback.objects.get(id=feedback_id)
         feedback.feedback_reply=feedback_reply
         feedback.save()
-        messages.success(request,'Replied successfully !')
+        messages.success(request,'Replied Successfully !')
         return redirect('staff_feedback_reply')
 
-
+@login_required(login_url='/')
 def STUDENT_SEND_NOTIFICATION(request):
     student=Student.objects.all()
     see_notification = Student_Notification.objects.all().order_by('-id')[0:5]
@@ -499,7 +525,7 @@ def STUDENT_SEND_NOTIFICATION(request):
     }
     return render(request,'Hod/student_notification.html',context)
 
-
+@login_required(login_url='/')
 def SAVE_STUDENT_NOTIFICATION(request):
     if request.method=="POST":
         student_id=request.POST.get('student_id')
@@ -511,10 +537,10 @@ def SAVE_STUDENT_NOTIFICATION(request):
             message=message,
         )
         notification.save()
-        messages.success(request,"Notifications send successfully !")
+        messages.success(request,"Notifications Send Successfully !")
         return redirect('student_send_notification')
 
-
+@login_required(login_url='/')
 def STUDENT_FEEDBACK_REPLY(request):
     feedback=Student_Feedback.objects.all()
     see_feedback=Student_Feedback.objects.all().order_by('-id')[0:5]
@@ -524,6 +550,7 @@ def STUDENT_FEEDBACK_REPLY(request):
     }
     return render(request,'Hod/student_feedback.html',context)
 
+@login_required(login_url='/')
 def SAVE_STUDENT_FEEDBACK_REPLY(request):
     if request.method=="POST":
         feedback_id=request.POST.get('feedback_id')
@@ -532,5 +559,5 @@ def SAVE_STUDENT_FEEDBACK_REPLY(request):
         feedback=Student_Feedback.objects.get(id=feedback_id)
         feedback.feedback_reply=feedback_reply
         feedback.save()
-        messages.success(request,'Replied successfully !')
+        messages.success(request,'Replied Successfully !')
         return redirect('student_feedback_reply')

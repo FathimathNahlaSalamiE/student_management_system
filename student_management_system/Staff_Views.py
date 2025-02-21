@@ -1,11 +1,13 @@
 from django.shortcuts import render,redirect
 from app.models import Staff,Staff_Notification,Staff_leave,Staff_Feedback
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/')
 def HOME(request):
     return render(request,'Staff/home.html')
 
-
+@login_required(login_url='/')
 def NOTIFICATIONS(request):
     staff=Staff.objects.filter(admin=request.user.id)
     for i in staff:
@@ -16,14 +18,15 @@ def NOTIFICATIONS(request):
         }
         return render(request,'Staff/notification.html',context)
 
-
+@login_required(login_url='/')
 def STAFF_NOTIFICATION_MARK_AS_DONE(request,status):
     notification=Staff_Notification.objects.get(id=status)
     notification.status=1
     notification.save()
+    messages.success(request,'Notification Read Successfully !')
     return redirect('notifications')
 
-
+@login_required(login_url='/')
 def STAFF_APPLY_LEAVE(request):
     staff=Staff.objects.filter(admin=request.user.id)
     for i in staff:
@@ -35,9 +38,9 @@ def STAFF_APPLY_LEAVE(request):
             'staff_leave_history':staff_leave_history,
         }
 
-    return render(request,'Staff/apply_leave.html',context)
+        return render(request,'Staff/apply_leave.html',context)
 
-
+@login_required(login_url='/')
 def STAFF_APPLY_LEAVE_SAVE(request):
     if request.method=="POST":
         leave_date=request.POST.get('leave_date')
@@ -51,10 +54,10 @@ def STAFF_APPLY_LEAVE_SAVE(request):
             message=leave_message,
         )
         leave.save()
-        messages.success(request,"Leave send successfully !")
+        messages.success(request,"Leave Send Successfully !")
         return redirect('staff_apply_leave')
 
-
+@login_required(login_url='/')
 def STAFF_FEEDBACK(request):
     staff_id=Staff.objects.get(admin=request.user.id)
 
@@ -66,7 +69,7 @@ def STAFF_FEEDBACK(request):
 
     return render(request,'Staff/feedback.html',context)
 
-
+@login_required(login_url='/')
 def STAFF_FEEDBACK_SAVE(request):
     if request.method=="POST":
         feedback=request.POST.get('feedback')
@@ -79,5 +82,5 @@ def STAFF_FEEDBACK_SAVE(request):
             feedback_reply="",
         )
         feedback.save()
-        messages.success(request,'Feedback send successfully !')
+        messages.success(request,'Feedback Send Successfully !')
         return redirect('staff_feedback')

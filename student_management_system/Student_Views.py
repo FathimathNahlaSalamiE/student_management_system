@@ -1,10 +1,13 @@
 from django.shortcuts import render,redirect
-from app.models import Student,Student_Notification,Student_Feedback
+from app.models import Student,Student_Notification,Student_Feedback,Student_leave
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/')
 def HOME(request):
     return render(request,'Student/home.html')
 
+@login_required(login_url='/')
 def NOTIFICATIONS(request):
     student=Student.objects.filter(admin=request.user.id)
     for i in student:
@@ -15,12 +18,15 @@ def NOTIFICATIONS(request):
         }
         return render(request,'Student/notification.html',context)
 
+@login_required(login_url='/')
 def STUDENT_NOTIFICATION_MARK_AS_DONE(request,status):
     notification=Student_Notification.objects.get(id=status)
     notification.status=1
     notification.save()
+    messages.success(request, 'Notification Read Successfully !')
     return redirect('student_notifications')
 
+@login_required(login_url='/')
 def STUDENT_FEEDBACK(request):
     student_id=Student.objects.get(admin=request.user.id)
 
@@ -32,6 +38,7 @@ def STUDENT_FEEDBACK(request):
 
     return render(request,'Student/feedback.html',context)
 
+@login_required(login_url='/')
 def STUDENT_FEEDBACK_SAVE(request):
     if request.method=="POST":
         feedback=request.POST.get('feedback')
@@ -44,5 +51,36 @@ def STUDENT_FEEDBACK_SAVE(request):
             feedback_reply="",
         )
         feedback.save()
-        messages.success(request,'Feedback send successfully !')
+        messages.success(request,'Feedback Send Successfully !')
         return redirect('student_feedback')
+
+@login_required(login_url='/')
+def STUDENT_APPLY_LEAVE(request):
+    student=Student.objects.filter(admin=request.user.id)
+    for i in student:
+        student_id=i.id
+
+        student_leave_history=Student_leave.objects.filter(student_id=student_id)
+
+        context={
+            'student_leave_history':student_leave_history,
+        }
+
+        return render(request,'Student/apply_leave.html',context)
+
+@login_required(login_url='/')
+def STUDENT_APPLY_LEAVE_SAVE(request):
+    if request.method=="POST":
+        leave_date=request.POST.get('leave_date')
+        leave_message=request.POST.get('leave_message')
+
+        student=Student.objects.get(admin=request.user.id)
+
+        leave=Student_leave(
+            student_id=student,
+            date=leave_date,
+            message=leave_message,
+        )
+        leave.save()
+        messages.success(request,"Leave Send Successfully !")
+        return redirect('student_apply_leave')

@@ -77,6 +77,10 @@ urlpatterns = [
     path('Hod/Staff/Approve_view/<str:id>',Hod_Views.STAFF_APPROVE_LEAVE,name='staff_approve_leave'),
     path('Hod/Staff/Disapprove_view/<str:id>',Hod_Views.STAFF_DISAPPROVE_LEAVE,name='staff_disapprove_leave'),
 
+    path('Hod/Student/Leave_view',Hod_Views.STUDENT_LEAVE_VIEW,name='student_leave_view'),
+    path('Hod/Student/Approve_view/<str:id>',Hod_Views.STUDENT_APPROVE_LEAVE,name='student_approve_leave'),
+    path('Hod/Student/Disapprove_view/<str:id>',Hod_Views.STUDENT_DISAPPROVE_LEAVE,name='student_disapprove_leave'),
+
     path('Hod/Feedback',Hod_Views.STAFF_FEEDBACK_REPLY,name='staff_feedback_reply'),
     path('Hod/Feedback/Save',Hod_Views.SAVE_STAFF_FEEDBACK_REPLY,name='save_staff_feedback_reply'),
 
@@ -104,5 +108,8 @@ urlpatterns = [
 
     path('Student/Feedback', Student_Views.STUDENT_FEEDBACK, name='student_feedback'),
     path('Student/Feedback/Save',Student_Views.STUDENT_FEEDBACK_SAVE,name='student_feedback_save'),
+
+    path('Student/Apply_leave',Student_Views.STUDENT_APPLY_LEAVE,name='student_apply_leave'),
+    path('Student/Apply_leave_save',Student_Views.STUDENT_APPLY_LEAVE_SAVE,name='student_apply_leave_save'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
