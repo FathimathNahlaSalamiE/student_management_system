@@ -77,10 +77,10 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Attendance Date</label>
-                                <input type="date" class="form-control" name="attendance_date" required>
+                                <input type="date" class="form-control" name="attendance_date" min="{{get_session_year.session_start}}" max="{{get_session_year.session_end}}" required>
                             </div>
                         </div>
-                        {% for i in students %}
+                        {% for i in studentsss %}
                         <div class="col-sm-12">
                             <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="exampleCheck1" value="{{i.id}}" name="student_id">

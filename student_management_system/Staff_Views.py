@@ -95,7 +95,7 @@ def STAFF_TAKE_ATTENDANCE(request):
 
     get_subject=None
     get_session_year=None
-    students=None
+    studentsss=None
     if action is not None:
         if request.method=="POST":
             subject_id=request.POST.get('subject_id')
@@ -109,6 +109,12 @@ def STAFF_TAKE_ATTENDANCE(request):
                 student_id=i.course.id
                 students=Student.objects.filter(course_id=student_id)
 
+            session_year=Session_Year.objects.filter(id=session_year_id)
+            for i in session_year:
+                students_id=i.id
+                studentss=Student.objects.filter(session_year_id=students_id)
+
+            studentsss=[i for i in students if i in studentss]
 
     context={
         'subject':subject,
@@ -116,7 +122,7 @@ def STAFF_TAKE_ATTENDANCE(request):
         'get_subject':get_subject,
         'get_session_year':get_session_year,
         'action':action,
-        'students':students,
+        'studentsss':studentsss,
     }
 
     return render(request,'Staff/take_attendance.html',context)
