@@ -156,7 +156,7 @@ def STAFF_SAVE_ATTENDANCE(request):
 
             )
             attendance_report.save()
-
+        messages.success(request,'Attendance Added Successfully !')
     return redirect('staff_take_attendance')
 
 

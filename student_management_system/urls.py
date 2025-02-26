@@ -87,6 +87,8 @@ urlpatterns = [
     path('Hod/Student/Feedback',Hod_Views.STUDENT_FEEDBACK_REPLY,name='student_feedback_reply'),
     path('Hod/Student/Feedback/Save',Hod_Views.SAVE_STUDENT_FEEDBACK_REPLY,name='save_student_feedback_reply'),
 
+    path('Hod/View_Attendance', Hod_Views.HOD_VIEW_ATTENDANCE, name='hod_view_attendance'),
+
     # for staff
     path('Staff/Home',Staff_Views.HOME,name="staff_home"),
 
@@ -115,5 +117,7 @@ urlpatterns = [
 
     path('Student/Apply_leave',Student_Views.STUDENT_APPLY_LEAVE,name='student_apply_leave'),
     path('Student/Apply_leave_save',Student_Views.STUDENT_APPLY_LEAVE_SAVE,name='student_apply_leave_save'),
+
+    path('Student/View_Attendance', Student_Views.STUDENT_VIEW_ATTENDANCE, name='student_view_attendance'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
