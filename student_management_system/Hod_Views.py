@@ -562,7 +562,7 @@ def SAVE_STUDENT_FEEDBACK_REPLY(request):
         messages.success(request,'Replied Successfully !')
         return redirect('student_feedback_reply')
 
-
+@login_required(login_url='/')
 def HOD_VIEW_ATTENDANCE(request):
     subject = Subject.objects.all()
     session_year = Session_Year.objects.all()
