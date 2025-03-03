@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app.models import Student,Student_Notification,Student_Feedback,Student_leave,Subject,Attendance,Attendance_Report
+from app.models import Student,Student_Notification,Student_Feedback,Student_leave,Subject,Attendance,Attendance_Report,StudentResult
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -105,3 +105,18 @@ def STUDENT_VIEW_ATTENDANCE(request):
         'attendance_report':attendance_report,
     }
     return render(request,'Student/view_attendance.html',context)
+
+
+def STUDENT_VIEW_RESULT(request):
+    student=Student.objects.get(admin=request.user.id)
+    result=StudentResult.objects.filter(student_id=student)
+    total_mark=None
+    for i in result:
+        assignment_mark=i.assignment_mark
+        exam_mark=i.exam_mark
+        total_mark=assignment_mark+exam_mark
+    context={
+        'result':result,
+        'total_mark':total_mark,
+    }
+    return render(request,'Student/view_result.html',context)
