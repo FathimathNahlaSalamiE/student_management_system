@@ -110,13 +110,16 @@ def STUDENT_VIEW_ATTENDANCE(request):
 def STUDENT_VIEW_RESULT(request):
     student=Student.objects.get(admin=request.user.id)
     result=StudentResult.objects.filter(student_id=student)
-    total_mark=None
+
+    result_with_total = []
     for i in result:
-        assignment_mark=i.assignment_mark
-        exam_mark=i.exam_mark
-        total_mark=assignment_mark+exam_mark
+        total_mark = i.assignment_mark + i.exam_mark
+        result_with_total.append({
+            'result': i,
+            'total_mark': total_mark
+        })
     context={
-        'result':result,
-        'total_mark':total_mark,
+        'result_with_total':result_with_total,
     }
+
     return render(request,'Student/view_result.html',context)

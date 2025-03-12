@@ -10,7 +10,7 @@
                         </ul>
                      </div>
                      <div class="col-auto text-right float-right ml-auto">
-                        <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+<!--                        <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>-->
                         <a href="{% url 'add_subject' %}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                      </div>
                   </div>
@@ -24,7 +24,7 @@
                               <table id="table_id" class="table table-hover table-center mb-0">
                                  <thead>
                                     <tr>
-                                       <th>ID</th>
+                                       <th>SI No</th>
                                        <th>Subject Name</th>
                                        <th>Course</th>
                                        <th>Staff</th>
@@ -36,7 +36,7 @@
                                  <tbody>
                                  {% for i in subject %}
                                     <tr>
-                                       <td>{{i.id}}</td>
+                                       <td>{{forloop.counter}}</td>
                                        <td>{{i.name}}</td>
                                        <td>{{i.course}}</td>
                                        <td>{{i.staff.admin.first_name}}&nbsp;{{i.staff.admin.last_name}}</td>

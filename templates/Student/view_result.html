@@ -10,7 +10,7 @@
                         </ul>
                      </div>
                      <div class="col-auto text-right float-right ml-auto">
-                        <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+<!--                        <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>-->
                      </div>
                   </div>
                </div>
@@ -23,7 +23,7 @@
                               <table id="table_id" class="table table-hover table-center mb-0">
                                  <thead>
                                     <tr>
-                                       <th>ID</th>
+                                       <th>SI No</th>
                                        <th>Subject</th>
                                        <th>Assignment Mark</th>
                                        <th>Exam Mark</th>
@@ -31,15 +31,15 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                 {% for i in result %}
+                                 {% for i in result_with_total %}
                                     <tr>
-                                       <td>{{i.id}}</td>
-                                       <td>{{i.subject_id}}</td>
-                                       <td>{{i.assignment_mark}}</td>
-                                       <td>{{i.exam_mark}}</td>
+                                       <td>{{forloop.counter}}</td>
+                                       <td>{{i.result.subject_id}}</td>
+                                       <td>{{i.result.assignment_mark}}</td>
+                                       <td>{{i.result.exam_mark}}</td>
                                        <td class="text-right">
-                                          {% if mark >= 50 %}
-                                          <span class="badge badge-danger">PASS</span>
+                                          {% if i.total_mark >= 50 %}
+                                          <span class="badge badge-success">PASSED</span>
                                           {% else %}
                                           <span class="badge badge-danger">FAILED</span>
                                           {% endif %}
