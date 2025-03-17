@@ -22,6 +22,9 @@ from django.conf.urls.static import static
 from .import views,Hod_Views,Staff_Views,Student_Views
 
 urlpatterns = [
+    path('forgot_password/',views.FORGOT, name='forgot_password'),
+    path('doReset',views.doReset,name="doReset"),
+
     path('admin/', admin.site.urls),
     path('base/',views.BASE,name="base"),
 

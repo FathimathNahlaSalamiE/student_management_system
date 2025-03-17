@@ -4,6 +4,33 @@ from django.contrib.auth import authenticate,logout,login
 from django.contrib import messages
 from app.models import CustomUser
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
+def FORGOT(request):
+    return render(request, 'forgot.html')
+
+def doReset(request):
+    if request.method=="POST":
+        email=request.POST.get('email')
+        new_password=request.POST.get('password')
+        confirm_password=request.POST.get('confirm_password')
+        try:
+            user=CustomUser.objects.get(email=email)
+        except ObjectDoesNotExist:
+            messages.error(request, 'Invalid Email!')
+            return redirect('forgot_password')
+        if new_password !=None and new_password != "":
+            if new_password==confirm_password:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, 'Password reset successfully. Please log in.')
+                return redirect('login')
+            else:
+                messages.error(request,'Confirm Password Does Not Match!')
+                return redirect('forgot_password')
+        else:
+            messages.error(request, 'Password Cannot Be Empty!')
+            return redirect('forgot_password')
 
 def BASE(request):
     return render(request,"base.html")
