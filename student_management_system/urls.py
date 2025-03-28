@@ -91,6 +91,9 @@ urlpatterns = [
     path('Hod/Student/Feedback/Save',Hod_Views.SAVE_STUDENT_FEEDBACK_REPLY,name='save_student_feedback_reply'),
 
     path('Hod/View_Attendance', Hod_Views.HOD_VIEW_ATTENDANCE, name='hod_view_attendance'),
+    path('Hod/Take_Staff_Attendance', Hod_Views.HOD_TAKE_STAFF_ATTENDANCE, name='hod_take_staff_attendance'),
+    path('Hod/Save_Staff_Attendance', Hod_Views.HOD_SAVE_STAFF_ATTENDANCE, name='hod_save_staff_attendance'),
+    path('Hod/View_Staff_Attendance', Hod_Views.HOD_VIEW_STAFF_ATTENDANCE, name='hod_view_staff_attendance'),
 
     # for staff
     path('Staff/Home',Staff_Views.HOME,name="staff_home"),
@@ -107,6 +110,7 @@ urlpatterns = [
     path('Staff/Take_Attendance',Staff_Views.STAFF_TAKE_ATTENDANCE,name='staff_take_attendance'),
     path('Staff/Save_Attendance',Staff_Views.STAFF_SAVE_ATTENDANCE,name='staff_save_attendance'),
     path('Staff/View_Attendance',Staff_Views.STAFF_VIEW_ATTENDANCE,name='staff_view_attendance'),
+    path('Staff/Staff_Attendance',Staff_Views.STAFF_ATTENDANCE,name='staff_attendance'),
 
     path('Staff/Add/Result',Staff_Views.STAFF_ADD_RESULT,name='staff_add_result'),
     path('Staff/Save/Result',Staff_Views.STAFF_SAVE_RESULT,name='staff_save_result'),

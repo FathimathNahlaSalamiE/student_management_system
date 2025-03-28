@@ -146,3 +146,20 @@ class StudentResult(models.Model):
 
     def __str__(self):
         return self.student_id.admin.first_name
+
+class Staff_Attendance(models.Model):
+    attendance_date=models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.attendance_date)
+
+class Staff_Attendance_Report(models.Model):
+    staff_id=models.ForeignKey(Staff,on_delete=models.DO_NOTHING)
+    attendance_id=models.ForeignKey(Staff_Attendance,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.staff_id.admin.first_name

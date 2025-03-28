@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app.models import Staff,Staff_Notification,Staff_leave,Staff_Feedback,Subject,Session_Year,Student,Attendance,Attendance_Report,StudentResult
+from app.models import Staff,Staff_Notification,Staff_leave,Staff_Feedback,Subject,Session_Year,Student,Attendance,Attendance_Report,StudentResult,Staff_Attendance_Report
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -275,3 +275,12 @@ def STAFF_SAVE_RESULT(request):
             return redirect('staff_add_result')
 
     return None
+
+def STAFF_ATTENDANCE(request):
+    staff=Staff.objects.get(admin=request.user.id)
+
+    attendance_report=Staff_Attendance_Report.objects.filter(staff_id=staff)
+    context={
+        'attendance_report':attendance_report,
+    }
+    return render(request,'Staff/staff_attendance.html',context)

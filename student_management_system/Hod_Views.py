@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback,Student_Notification,Student_Feedback,Student_leave,Attendance,Attendance_Report
+from app.models import Course,Session_Year,CustomUser,Student,Staff,Subject,Staff_Notification,Staff_leave,Staff_Feedback,Student_Notification,Student_Feedback,Student_leave,Attendance,Attendance_Report,Staff_Attendance,Staff_Attendance_Report
 from django.contrib import messages
 
 @login_required(login_url='/')
@@ -598,3 +598,59 @@ def HOD_VIEW_ATTENDANCE(request):
         'attendance_report': attendance_report,
     }
     return render(request,'Hod/view_attendance.html',context)
+
+
+def HOD_TAKE_STAFF_ATTENDANCE(request):
+    staff=Staff.objects.all()
+
+    context={
+        'staff':staff,
+    }
+
+    return render(request,'Hod/take_staff_attendance.html',context)
+
+def HOD_SAVE_STAFF_ATTENDANCE(request):
+    if request.method=="POST":
+        attendance_date=request.POST.get('attendance_date')
+        staff_id=request.POST.getlist('staff_id')
+
+        attendance=Staff_Attendance(
+            attendance_date=attendance_date,
+        )
+        attendance.save()
+
+        for i in staff_id:
+            staff_id=i
+            int_staff=int(staff_id)
+            p_staff=Staff.objects.get(id=int_staff)
+            attendance_report=Staff_Attendance_Report(
+                staff_id=p_staff,
+                attendance_id=attendance,
+            )
+            attendance_report.save()
+        messages.success(request,'Attendance Added Successfully !')
+    return redirect('hod_take_staff_attendance')
+
+def HOD_VIEW_STAFF_ATTENDANCE(request):
+
+    action = request.GET.get('action')
+
+    attendance_date = None
+    attendance_report = None
+
+    if action is not None:
+        if request.method == "POST":
+            attendance_date = request.POST.get('attendance_date')
+
+            attendance = Staff_Attendance.objects.filter(attendance_date=attendance_date)
+
+            for i in attendance:
+                attendance_id = i.id
+                attendance_report = Staff_Attendance_Report.objects.filter(attendance_id=attendance_id)
+
+    context = {
+        'action': action,
+        'attendance_date': attendance_date,
+        'attendance_report': attendance_report,
+    }
+    return render(request,'Hod/view_staff_attendance.html',context)

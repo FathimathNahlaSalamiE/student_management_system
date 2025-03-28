@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Attendance</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'hod_home' %}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Attendance</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% if action is None %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="?action=view_attendance" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>View Staff Attendance</span></h5>
+                        </div>
+                        {% include 'includes/messages.html' %}
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Attendance Date</label>
+                                <input type="date" class="form-control" name="attendance_date" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Show Staff</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>View Attendance</span></h5>
+                        </div>
+                        {% include 'includes/messages.html' %}
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Attendance Date</label>
+                                <input type="date" class="form-control" name="attendance_date" value="{{attendance_date}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <table id="table_id" class="table table-hover table-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in attendance_report %}
+                                <tr>
+                                    <td>{{i.staff_id.admin.id}}</td>
+                                    <td>{{i.staff_id.admin.first_name}}&nbsp;{{i.staff_id.admin.last_name}}</td>
+                                    <td>{{i.staff_id.admin.email}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

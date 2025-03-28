@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from app.models import Student,Student_Notification,Student_Feedback,Student_leave,Subject,Attendance,Attendance_Report,StudentResult
+from app.models import Student,Student_Notification,Student_Feedback,Student_leave,Subject,Attendance_Report,StudentResult
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
